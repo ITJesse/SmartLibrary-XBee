@@ -1,0 +1,16 @@
+{
+  "name": "xbee-gateway",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "async": "*",
+    "iconv-lite": "^0.4.7",
+    "later": "^1.1.6",
+    "mysql": "*",
+    "node-mysql": "*",
+    "serialport": "^1.6.1"
+  }
+}
