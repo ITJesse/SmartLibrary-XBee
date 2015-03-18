@@ -4,7 +4,7 @@ var later = require('later');
 var serialport = require("serialport");
 var SerialPort = serialport.SerialPort;
 
-var serialPort = new SerialPort("/dev/tty.usbserial", {
+var serialPort = new SerialPort("/dev/cu.usbserial", {
     baudrate: 9600,
     buffersize: 1024,
     parser: serialport.parsers.readline("\n")
