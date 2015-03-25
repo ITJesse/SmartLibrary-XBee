@@ -35,12 +35,12 @@ exports.init = function(callback){
             xbeeList.push(node);
         // console.log(util.inspect(node));
 
-        node.on("data", function(data) {
-            console.log("%s> %s", node.remote64.hex, util.inspect(data));
-            node.send("pong", function(err, status) {
-                // Transmission successful if err is null
-            });
-        });
+        // node.on("data", function(data) {
+        //     console.log("%s> %s", node.remote64.hex, util.inspect(data));
+        //     node.send("pong", function(err, status) {
+        //         // Transmission successful if err is null
+        //     });
+        // });
     });
 };
 
