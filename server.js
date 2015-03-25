@@ -44,7 +44,7 @@ client.connect(PORT, HOST, function() {
     async.waterfall([
             function(cb) {
                 xbee.init(function() {
-                    cb(null, coordinator);
+                    cb(null);
                 }, onXbeeData);
             }, //初始化XBee
             function(cb) {
