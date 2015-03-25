@@ -80,7 +80,7 @@ exports.addNode = function(mac){
 exports.getVal = function(item){
     // console.log(node);
     var data = item.mac + "|" + item.type + "|0\n";
-    console.log("XBee send: %s", data);
+    console.log("XBee send: %s", util.inspect(data));
     xbee.broadcast(data, function(err, status){
         if(err) return console.log(err);
         // console.log("Send status: " + status);
@@ -90,7 +90,7 @@ exports.getVal = function(item){
 exports.sendData = function(mac, type, value){
     // console.log(node);
     var data = mac + "|" + type + "|" + value + "\n";
-    console.log("XBee send: %s", data);
+    console.log("XBee send: %s", util.inspect(data));
     xbee.broadcast(data, function(err, status){
         if(err) return console.log(err);
         // console.log("Send status: " + status);
