@@ -6,6 +6,7 @@ var config = require('./modules/config');
 
 var HOST = config.host;
 var PORT = config.port;
+var client = new net.Socket();
 
 var xbeeList;
 
@@ -37,7 +38,6 @@ var onXbeeData = function(data){
     client.write(JSON.stringify(json));
 };
 
-var client = new net.Socket();
 client.connect(PORT, HOST, function() {
 
     console.log('CONNECTED TO: ' + HOST + ':' + PORT);
