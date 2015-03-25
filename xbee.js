@@ -5,7 +5,6 @@ var config = require('./modules/config');
 
 // This parser buffers data, emits chucks
 // seperated by space chars (" ")
-var Parser = require('./parser.js');
 
 var xbee = new XBee.XBee({
     port: config.serial, // replace with yours
@@ -80,7 +79,7 @@ exports.addNode = function(mac){
         macArray.push(parseInt('0x' + mac.slice(i, i+2)));
     }
     // console.log(macArray);
-    return xbee.addNode([0x00,0x13,0xa2,0x00,macArray[0],macArray[1],macArray[2],macArray[3]], Parser);
+    return xbee.addNode([0x00,0x13,0xa2,0x00,macArray[0],macArray[1],macArray[2],macArray[3]]);
 };
 
 exports.getVal = function(node){
