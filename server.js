@@ -28,6 +28,7 @@ var getVal = function() {
 
 var onXbeeData = function(data){
     // console.log(data);
+    var data = data.slice(0, data.length - 1);
     var res = data.split("|");
     var json = {
         mac: res[0],
