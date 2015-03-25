@@ -74,7 +74,7 @@ client.on('data', function(data) {
     var value = json.value;
 
     switch(type){
-        case 100:
+        case "100":
             for (var i in value) {
                 var node = {
                     mac: value[i].mac,
