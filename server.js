@@ -26,13 +26,14 @@ var getVal = function() {
 };
 
 var onXbeeData = function(data){
-    console.log(data);
+    // console.log(data);
     var res = data.split("|");
     var json = {
         mac: res[0],
         type: res[1],
         value: res[2]
     };
+    console.log(json);
     client.write(JSON.stringify(json));
 };
 
