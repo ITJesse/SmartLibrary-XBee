@@ -74,6 +74,9 @@ client.on('data', function(data) {
     var value = json.value;
 
     switch(type){
+        case "8":
+            xbee.sendData(mac, type, value);
+            break;
         case "100":
             for (var i in value) {
                 var node = {

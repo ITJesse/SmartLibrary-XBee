@@ -86,3 +86,13 @@ exports.getVal = function(item){
         // console.log("Send status: " + status);
     });
 };
+
+exports.sendData = function(mac, type, value){
+    // console.log(node);
+    var data = mac + "|" + type + "|" + value + "\n";
+    console.log("XBee send: " + data.slice(1, data.length - 1));
+    xbee.broadcast(data, function(err, status){
+        if(err) return console.log(err);
+        // console.log("Send status: " + status);
+    });
+};
