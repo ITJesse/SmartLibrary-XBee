@@ -49,31 +49,15 @@ client.connect(PORT, HOST, function() {
                 }, onXbeeData);
             }, //初始化XBee
             function(cb) {
-                xbee.scan(function(list) {
-                    xbeeList = list;
+                xbee.scan(function() {
                     cb(null);
                 });
             },
-            // function(cb) {
-            //     xbee.getXbeeList(function(err, list) {
-            //         if (err) cb(err);
-            //         cb(null, list);
-            //     });
-            // }, //获取XBee节点列表
-            // function(list, cb) {
-            //     for (var i in list) {
-            //         var node = {
-            //             type: list[i].type,
-            //             node: xbee.addNode(list[i].mac)
-            //         };
-            //         xbeeList.push(node);
-            //     }
-            //     cb(null);
-            // }, //将节点插入轮询列表
             function(cb) {
-                var getValTimer = later.setInterval(getVal, getValSched);
+                var json = { type: 100 };
+                client.write(JSON.stringify(json));
                 cb(null);
-            }
+            } //获取XBee节点列表
         ],
         function(err) {
             // if (err) return console.log(err);
@@ -82,7 +66,21 @@ client.connect(PORT, HOST, function() {
 });
 
 client.on('data', function(data) {
-
     console.log('DATA: ' + data);
+
+    switch(data.type){
+        case 100:
+            for (var i in data.value) {
+                var node = {
+                    type: list[i].type,
+                    node: xbee.addNode(list[i].mac)
+                };
+                xbeeList.push(node);
+            }
+            //将节点插入轮询列表
+            var getValTimer = later.setInterval(getVal, getValSched);
+            break;
+        default:
+    }
 
 });
