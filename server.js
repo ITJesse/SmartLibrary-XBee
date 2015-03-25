@@ -8,7 +8,7 @@ var HOST = config.host;
 var PORT = config.port;
 var client = new net.Socket();
 
-var xbeeList;
+var xbeeList = [];
 
 var getValSched = {
     schedules: [{
