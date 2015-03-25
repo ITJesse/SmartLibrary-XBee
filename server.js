@@ -1,4 +1,5 @@
 var net = require('net');
+var util = require('util');
 var async = require('async');
 var later = require('later');
 var xbee = require('./xbee');
@@ -28,14 +29,14 @@ var getVal = function() {
 
 var onXbeeData = function(data){
     // console.log(data);
-    var data = data.slice(0, data.length - 1);
+    data = data.slice(0, data.length - 1);
     var res = data.split("|");
     var json = {
         mac: res[0],
         type: res[1],
         value: res[2]
     };
-    console.log("Socket send: " + json);
+    console.log("Socket send: " + util.inspect(json));
     client.write(JSON.stringify(json));
 };
 
