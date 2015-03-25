@@ -79,7 +79,7 @@ client.on('data', function(data) {
         case "8":
             setTimeout(function(){
                 xbee.sendData(mac, type, value);
-            }, 1000);
+            }, 2000);
             break;
         case "100":
             for (var i in value) {
