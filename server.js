@@ -77,9 +77,7 @@ client.on('data', function(data) {
 
     switch(type){
         case "8":
-            setTimeout(function(){
-                xbee.sendData(mac, type, value);
-            }, 2000);
+            xbee.sendData(mac, type, value);
             break;
         case "100":
             for (var i in value) {
