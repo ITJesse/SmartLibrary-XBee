@@ -72,8 +72,8 @@ client.on('data', function(data) {
         case 100:
             for (var i in data.value) {
                 var node = {
-                    type: list[i].type,
-                    node: xbee.addNode(list[i].mac)
+                    type: data.value[i].type,
+                    node: xbee.addNode(data.value[i].mac)
                 };
                 xbeeList.push(node);
             }
