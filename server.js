@@ -66,7 +66,7 @@ client.connect(PORT, HOST, function() {
 });
 
 client.on('data', function(data) {
-    console.log('DATA: ' + data);
+    console.log('Socket data recived: ' + data);
 
     switch(data.type){
         case 100:
