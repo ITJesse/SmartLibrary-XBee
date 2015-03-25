@@ -25,6 +25,17 @@ var getVal = function() {
     });
 };
 
+var onXbeeData = function(data){
+    console.log(data);
+    var res = data.split("|");
+    var json = {
+        mac: res[0],
+        type: res[1],
+        value: res[2]
+    };
+    client.write(JSON.stringify(json));
+};
+
 var client = new net.Socket();
 client.connect(PORT, HOST, function() {
 
@@ -32,18 +43,12 @@ client.connect(PORT, HOST, function() {
 
     async.waterfall([
             function(cb) {
-                xbee.init(function(coordinator) {
+                xbee.init(function() {
                     cb(null, coordinator);
-                });
+                }, onXbeeData);
             }, //初始化XBee
-            function(coordinator, cb) {
-                // coordinator.on("data", function(data) {
-                //     console.log("XBee recived: ", data);
-                // });
-                cb(null);
-            },
-            function(cb){
-                xbee.scan(function(list){
+            function(cb) {
+                xbee.scan(function(list) {
                     xbeeList = list;
                     cb(null);
                 });

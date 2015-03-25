@@ -13,7 +13,7 @@ var xbee = new XBee.XBee({
 
 var xbeeList = [];
 
-exports.init = function(callback){
+exports.init = function(callback, onXbeeData){
 
     // Open COM port, read some parameters from the XBee at once.
     xbee.init();
@@ -22,11 +22,7 @@ exports.init = function(callback){
     // Emitted when .init() is done (COM port open, parameters read)
     xbee.on("initialized", function(params) {
         console.log("XBee Parameters: %s", util.inspect(params));
-        callback(xbee);
-    });
-
-    xbee.on("data", function(data){
-        console.log("XBee recived: " + data);
+        callback();
     });
 
     xbee.on("newNodeDiscovered", function(node) {
@@ -35,12 +31,10 @@ exports.init = function(callback){
             xbeeList.push(node);
         // console.log(util.inspect(node));
 
-        // node.on("data", function(data) {
-        //     console.log("%s> %s", node.remote64.hex, util.inspect(data));
-        //     node.send("pong", function(err, status) {
-        //         // Transmission successful if err is null
-        //     });
-        // });
+        node.on("data", function(data) {
+            console.log("XBee recived %s> %s", node.remote64.hex, util.inspect(data));
+            onXbeeData(data);
+        });
     });
 };
 
