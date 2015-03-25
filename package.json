@@ -8,7 +8,6 @@
   "dependencies": {
     "async": "*",
     "later": "^1.1.6",
-    "mysql": "*",
     "node-mysql": "*",
     "svd-xbee": "^0.3.6",
     "util": "^0.10.3"

@@ -2,11 +2,12 @@ var net = require('net');
 var async = require('async');
 var later = require('later');
 var xbee = require('./xbee');
+var config = require('./modules/config');
 
-var HOST = '127.0.0.1';
-var PORT = 9478;
+var HOST = config.host;
+var PORT = config.port;
 
-var xbeeList = [];
+var xbeeList;
 
 var getValSched = {
     schedules: [{
@@ -18,7 +19,7 @@ var getVal = function() {
     console.log(new Date());
     async.eachSeries(xbeeList, function(item, callback) {
         setTimeout(function() {
-            xbee.getVal(item.node);
+            xbee.getVal(item);
             callback(null);
         }, 1000);
     });
@@ -41,22 +42,28 @@ client.connect(PORT, HOST, function() {
                 });
                 cb(null);
             },
-            function(cb) {
-                xbee.getXbeeList(function(err, list) {
-                    if (err) cb(err);
-                    cb(null, list);
+            function(cb){
+                xbee.scan(function(list){
+                    xbeeList = list;
+                    cb(null);
                 });
-            }, //获取XBee节点列表
-            function(list, cb) {
-                for (var i in list) {
-                    var node = {
-                        type: list[i].type,
-                        node: xbee.addNode(list[i].mac)
-                    };
-                    xbeeList.push(node);
-                }
-                cb(null);
-            }, //将节点插入轮询列表
+            },
+            // function(cb) {
+            //     xbee.getXbeeList(function(err, list) {
+            //         if (err) cb(err);
+            //         cb(null, list);
+            //     });
+            // }, //获取XBee节点列表
+            // function(list, cb) {
+            //     for (var i in list) {
+            //         var node = {
+            //             type: list[i].type,
+            //             node: xbee.addNode(list[i].mac)
+            //         };
+            //         xbeeList.push(node);
+            //     }
+            //     cb(null);
+            // }, //将节点插入轮询列表
             function(cb) {
                 var getValTimer = later.setInterval(getVal, getValSched);
                 cb(null);
