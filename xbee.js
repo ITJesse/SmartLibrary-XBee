@@ -80,5 +80,8 @@ exports.getVal = function(node){
     // console.log(node);
     var data = node.remote64.hex.slice(8,16).toUpperCase() + "|0\n";
     console.log("XBee send: " + data);
-    node.send(data);
+    node.send(data, function(err, status){
+        if(err) return console.log(err);
+        console.log(status);
+    });
 };
