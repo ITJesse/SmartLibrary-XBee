@@ -8,7 +8,8 @@ var config = require('./modules/config');
 
 var xbee = new XBee.XBee({
     port: config.serial, // replace with yours
-    baudrate: config.baudrate // 9600 is default
+    baudrate: config.baudrate, // 9600 is default
+    transmit_status_timeout: 3000
 });
 
 var xbeeList = [];
