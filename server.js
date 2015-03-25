@@ -54,7 +54,7 @@ client.connect(PORT, HOST, function() {
                 });
             },
             function(cb) {
-                var json = { type: 100 };
+                var json = { type: "100" };
                 client.write(JSON.stringify(json));
                 cb(null);
             } //获取XBee节点列表
