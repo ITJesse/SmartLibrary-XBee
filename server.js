@@ -34,7 +34,7 @@ var onXbeeData = function(data){
         type: res[1],
         value: res[2]
     };
-    console.log(json);
+    console.log("Socket send: " + json);
     client.write(JSON.stringify(json));
 };
 

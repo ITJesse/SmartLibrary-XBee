@@ -90,7 +90,7 @@ exports.getVal = function(item){
 exports.sendData = function(mac, type, value){
     // console.log(node);
     var data = mac + "|" + type + "|" + value + "\n";
-    console.log("XBee send: " + data.slice(0, data.length - 1));
+    console.log("XBee send: %s", data);
     xbee.broadcast(data, function(err, status){
         if(err) return console.log(err);
         // console.log("Send status: " + status);
