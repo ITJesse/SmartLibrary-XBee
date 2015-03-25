@@ -68,12 +68,18 @@ client.connect(PORT, HOST, function() {
 client.on('data', function(data) {
     console.log('Socket data recived: ' + data);
 
-    switch(data.type){
+    var json = JSON.parse(data);
+    var mac = json.mac;
+    var type = json.type;
+    var value = json.value;
+
+    switch(type){
         case 100:
-            for (var i in data.value) {
+            for (var i in value) {
                 var node = {
-                    type: data.value[i].type,
-                    node: xbee.addNode(data.value[i].mac)
+                    mac: value[i].mac,
+                    type: value[i].type,
+                    node: xbee.addNode(value[i].mac)
                 };
                 xbeeList.push(node);
             }
