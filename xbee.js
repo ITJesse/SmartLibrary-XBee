@@ -26,6 +26,10 @@ exports.init = function(callback){
         callback(xbee);
     });
 
+    xbee.on("data", function(data){
+        console.log("XBee recived: " + data);
+    });
+
     xbee.on("newNodeDiscovered", function(node) {
         console.log("XBee found: " + node.remote64.hex);
         if(xbeeList.indexOf(node) == -1)

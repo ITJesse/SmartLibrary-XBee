@@ -37,9 +37,9 @@ client.connect(PORT, HOST, function() {
                 });
             }, //初始化XBee
             function(coordinator, cb) {
-                coordinator.on("data", function(data) {
-                    console.log("XBee recived: ", data);
-                });
+                // coordinator.on("data", function(data) {
+                //     console.log("XBee recived: ", data);
+                // });
                 cb(null);
             },
             function(cb){
