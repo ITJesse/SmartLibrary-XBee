@@ -79,7 +79,7 @@ exports.addNode = function(mac){
 
 exports.getVal = function(item){
     // console.log(node);
-    var data = item.mac + "|" + item.type + "0\n";
+    var data = item.mac + "|" + item.type + "|0\n";
     console.log("XBee send: " + data.slice(1, data.length - 1));
     xbee.broadcast(data, function(err, status){
         if(err) return console.log(err);
