@@ -54,6 +54,16 @@ var getRaspi = function() {
     }
     console.log("MEM: " + mem);
     client.write(JSON.stringify(item));
+
+    var file = fs.readFileSync("/proc/loadavg", "utf8");
+    var load = parseFloat(file.slice(0, 4));
+    var item = {
+        mac: 'E84E061C',
+        type: '13',
+        value: load
+    }
+    console.log("LOAD: " + load);
+    client.write(JSON.stringify(item));
 }
 
 var onXbeeData = function(data){
