@@ -38,7 +38,7 @@ var getRaspi = function() {
     var file = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp", "utf8");
     var temp = (parseFloat(file) / 1000).toFixed(1);
     var item = {
-        mac: 'E84E061C187B',
+        mac: 'E84E061C',
         type: '1',
         value: temp
     }
