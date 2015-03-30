@@ -3,6 +3,7 @@ var util = require('util');
 var async = require('async');
 var later = require('later');
 var fs = require('fs');
+var os = require('os');
 var xbee = require('./xbee');
 var config = require('./modules/config');
 
@@ -43,6 +44,15 @@ var getRaspi = function() {
         value: temp
     }
     console.log("CPU: " + temp);
+    client.write(JSON.stringify(item));
+
+    var mem = Math.floor((os.totalmem() - os.freemem()) / 1024 / 1024);
+    var item = {
+        mac: 'E84E061C',
+        type: '12',
+        value: mem
+    }
+    console.log("MEM: " + mem);
     client.write(JSON.stringify(item));
 }
 
