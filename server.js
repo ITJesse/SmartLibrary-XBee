@@ -42,7 +42,7 @@ var getRaspi = function() {
         mac: 'E84E061C',
         type: '1',
         value: temp
-    }
+    };
     console.log("CPU: " + temp);
     client.write(JSON.stringify(item));
 
@@ -51,7 +51,7 @@ var getRaspi = function() {
         mac: 'E84E061C',
         type: '12',
         value: mem
-    }
+    };
     console.log("MEM: " + mem);
     client.write(JSON.stringify(item));
 
@@ -61,11 +61,11 @@ var getRaspi = function() {
         mac: 'E84E061C',
         type: '13',
         value: load
-    }
+    };
     console.log("LOAD: " + load);
     setTimeout(function() {
         client.write(JSON.stringify(item));
-    }, 100);
+    }, 500);
 }
 
 var onXbeeData = function(data){
