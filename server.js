@@ -36,34 +36,43 @@ var getVal = function() {
 };
 
 var getRaspi = function() {
+    var task = [];
+
     var file = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp", "utf8");
     var temp = (parseFloat(file) / 1000).toFixed(1);
-    var item = {
+    var tempJson = {
         mac: 'E84E061C',
         type: '1',
         value: temp
     };
+    task.push(tempJson);
     console.log("CPU: " + temp);
-    client.write(JSON.stringify(item));
 
     var file = fs.readFileSync("/proc/loadavg", "utf8");
     var load = parseFloat(file.slice(0, 4));
-    var item = {
+    var loadJson = {
         mac: 'E84E061C',
         type: '13',
         value: load
     };
+    task.push(loadJson);
     console.log("LOAD: " + load);
-    client.write(JSON.stringify(item));
 
     var mem = Math.floor((os.totalmem() - os.freemem()) / 1024 / 1024);
-    var item = {
+    var memJson = {
         mac: 'E84E061C',
         type: '12',
         value: mem
     };
+    task.push(memJson);
     console.log("MEM: " + mem);
-    client.write(JSON.stringify(item));
+
+    async.eachSeries(task, function(item, callback) {
+        setTimeout(function() {
+            client.write(JSON.stringify(item));
+            callback(null);
+        }, 1000);
+    });
 }
 
 var onXbeeData = function(data){
