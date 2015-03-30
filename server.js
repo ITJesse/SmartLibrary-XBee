@@ -63,7 +63,9 @@ var getRaspi = function() {
         value: load
     }
     console.log("LOAD: " + load);
-    client.write(JSON.stringify(item));
+    setTimeout(function() {
+        client.write(JSON.stringify(item));
+    }, 100);
 }
 
 var onXbeeData = function(data){
