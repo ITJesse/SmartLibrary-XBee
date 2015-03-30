@@ -2,6 +2,7 @@ var net = require('net');
 var util = require('util');
 var async = require('async');
 var later = require('later');
+var fs = require('fs');
 var xbee = require('./xbee');
 var config = require('./modules/config');
 
@@ -17,6 +18,12 @@ var getValSched = {
     }]
 };
 
+var getRaspiSched = {
+    schedules: [{
+        s: [10, 25, 45, 55]
+    }]
+};
+
 var getVal = function() {
     console.log(new Date());
     async.eachSeries(xbeeList, function(item, callback) {
@@ -26,6 +33,18 @@ var getVal = function() {
         }, 1000);
     });
 };
+
+var getRaspi = function() {
+    var file = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp", "utf8");
+    var temp = (parseInt(file) / 1000).toFix(1);
+    var item = {
+        mac: 'E84E061C187B',
+        type: '1',
+        value: temp
+    }
+    console.log("CPU: " + temp);
+    xbee.getVal(item);
+}
 
 var onXbeeData = function(data){
     // console.log(data);
@@ -95,5 +114,7 @@ client.on('data', function(data) {
             break;
         default:
     }
+
+    var getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
 
 });
