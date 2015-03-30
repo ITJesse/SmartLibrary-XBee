@@ -46,15 +46,6 @@ var getRaspi = function() {
     console.log("CPU: " + temp);
     client.write(JSON.stringify(item));
 
-    var mem = Math.floor((os.totalmem() - os.freemem()) / 1024 / 1024);
-    var item = {
-        mac: 'E84E061C',
-        type: '12',
-        value: mem
-    };
-    console.log("MEM: " + mem);
-    client.write(JSON.stringify(item));
-
     var file = fs.readFileSync("/proc/loadavg", "utf8");
     var load = parseFloat(file.slice(0, 4));
     var item = {
@@ -63,9 +54,16 @@ var getRaspi = function() {
         value: load
     };
     console.log("LOAD: " + load);
-    setTimeout(function() {
-        client.write(JSON.stringify(item));
-    }, 500);
+    client.write(JSON.stringify(item));
+
+    var mem = Math.floor((os.totalmem() - os.freemem()) / 1024 / 1024);
+    var item = {
+        mac: 'E84E061C',
+        type: '12',
+        value: mem
+    };
+    console.log("MEM: " + mem);
+    client.write(JSON.stringify(item));
 }
 
 var onXbeeData = function(data){
