@@ -43,7 +43,7 @@ var getRaspi = function() {
         value: temp
     }
     console.log("CPU: " + temp);
-    xbee.getVal(item);
+    client.write(JSON.stringify(json));
 }
 
 var onXbeeData = function(data){
