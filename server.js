@@ -15,13 +15,13 @@ var xbeeList = [];
 
 var getValSched = {
     schedules: [{
-        s: [0, 15, 30, 45]
+        s: [0, 30]
     }]
 };
 
 var getRaspiSched = {
     schedules: [{
-        s: [10, 25, 45, 55]
+        s: [15, 50]
     }]
 };
 
