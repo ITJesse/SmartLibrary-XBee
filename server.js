@@ -142,6 +142,10 @@ client.on('data', function(data) {
             var getValTimer = later.setInterval(getVal, getValSched);
             break;
         default:
+            setTimeout(function(){
+                xbee.sendData(mac, type, value);
+            }, 1000);
+            break;
     }
 
     var getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
