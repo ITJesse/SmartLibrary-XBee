@@ -149,3 +149,7 @@ socket.on('data', function(data){
 socket.on('disconnect', function(){
     console.log('Disconnect to the Server!');
 });
+
+socket.on('reconnect', function() {
+    console.log('Reconnect to the Server!');
+})
