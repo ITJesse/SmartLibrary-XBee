@@ -115,8 +115,6 @@ socket.on('connect', function(){
         if (err) console.log(err);
         // console.log(xbeeList);
     });
-
-    cb(null);
 });
 
 socket.on('data', function(data){
