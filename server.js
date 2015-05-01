@@ -20,7 +20,7 @@ var getValSched = {
 
 var getRaspiSched = {
     schedules: [{
-        s: [15, 50]
+        s: [15, 45]
     }]
 };
 
