@@ -147,6 +147,8 @@ socket.on('data', function(data){
 });
 
 socket.on('disconnect', function(){
+    getValTimer.clear();
+    getRaspiTimer.clear()
     console.log('Disconnect to the Server!');
 });
 
