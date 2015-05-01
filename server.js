@@ -10,6 +10,7 @@ var config = require('./modules/config');
 var socket = require('socket.io-client')(config.host);
 
 var xbeeList = [];
+var getValTimer, getRaspiTimer;
 
 var getValSched = {
     schedules: [{
@@ -134,8 +135,8 @@ socket.on('data', function(data){
                 xbeeList.push(node);
             }
             //将节点插入轮询列表
-            var getValTimer = later.setInterval(getVal, getValSched);
-            var getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
+            getValTimer = later.setInterval(getVal, getValSched);
+            getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
             break;
         default:
             setTimeout(function(){
