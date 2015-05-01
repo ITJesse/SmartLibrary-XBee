@@ -1,5 +1,5 @@
 var util = require('util');
-var XBee = require('svd-xbee');
+var XBee = require('./svd-xbee');
 var config = require('./modules/config');
 // var mysql = require('./modules/mysql');
 
