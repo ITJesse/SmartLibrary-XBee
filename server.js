@@ -7,9 +7,7 @@ var os = require('os');
 var xbee = require('./xbee');
 var config = require('./modules/config');
 
-var HOST = config.host;
-var PORT = config.port;
-var client = new net.Socket();
+var socket = require('socket.io-client')(config.host);
 
 var xbeeList = [];
 
@@ -69,7 +67,7 @@ var getRaspi = function() {
 
     async.eachSeries(task, function(item, callback) {
         setTimeout(function() {
-            client.write(JSON.stringify(item));
+            socket.emit('data', item);
             callback(null);
         }, 1000);
     });
@@ -85,43 +83,40 @@ var onXbeeData = function(data){
         value: res[2]
     };
     console.log("Socket send: " + util.inspect(json));
-    client.write(JSON.stringify(json));
+    socket.emit('data', json);
 };
 
-client.connect(PORT, HOST, function() {
-
-    console.log('CONNECTED TO: ' + HOST + ':' + PORT);
-
+socket.on('connect', function(){
+    console.log('Connected to the Server!');
     async.waterfall([
-            function(cb) {
-                xbee.init(function() {
-                    cb(null);
-                }, onXbeeData);
-            }, //初始化XBee
-            function(cb) {
-                xbee.scan(function() {
-                    cb(null);
-                });
-            },
-            function(cb) {
-                var json = { type: "100" };
-                client.write(JSON.stringify(json));
+        function(cb) {
+            xbee.init(function() {
                 cb(null);
-            } //获取XBee节点列表
-        ],
-        function(err) {
-            // if (err) return console.log(err);
-            // console.log(xbeeList);
-        });
+            }, onXbeeData);
+        }, //初始化XBee
+        function(cb) {
+            xbee.scan(function() {
+                cb(null);
+            });
+        },
+        function(cb) {
+            var json = { type: "100" };
+            socket.emit('data', json);
+            cb(null);
+        } //获取XBee节点列表
+    ],
+    function(err) {
+        if (err) console.log(err);
+        // console.log(xbeeList);
+    });
 });
 
-client.on('data', function(data) {
-    console.log('Socket data recived: ' + data);
+socket.on('data', function(data){
+    console.log('Socket data recived: ' + JSON.stringify(data));
 
-    var json = JSON.parse(data);
-    var mac = json.mac;
-    var type = json.type;
-    var value = json.value;
+    var mac = data.mac;
+    var type = data.type;
+    var value = data.value;
 
     switch(type){
         case "8":
@@ -150,4 +145,8 @@ client.on('data', function(data) {
 
     var getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
 
+});
+
+socket.on('disconnect', function(){
+    console.log('Disconnect to the Server!');
 });
