@@ -150,7 +150,7 @@ socket.on('data', function(data){
 socket.on('disconnect', function(){
     getValTimer.clear();
     getRaspiTimer.clear();
-    xbee.exit();
+    xbee.disconnect();
     console.log('Disconnect to the Server!');
 });
 
