@@ -43,6 +43,11 @@ exports.disconnect = function(callback){
     xbee.disconnect(function(){
         console.log("XBee disconnect");
     });
+    xbee = new XBee.XBee({
+        port: config.serial, // replace with yours
+        baudrate: config.baudrate, // 9600 is default
+        transmit_status_timeout: 3000
+    });
 }
 
 exports.scan = function(callback){
