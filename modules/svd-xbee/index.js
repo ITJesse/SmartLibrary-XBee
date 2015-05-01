@@ -213,11 +213,15 @@ XBee.prototype.init = function(cb) {
   return self;
 }
 
-XBee.prototype.exit = function() {
+XBee.prototype.disconnect = function(cb) {
     var self = this;
     self.serial.close(function(err) {
-        if (err) console.log("Error closing port: "+util.inspect(err));
-        process.exit();
+        if (err){
+            console.log("Error closing port: "+util.inspect(err));
+            process.exit();
+        }else{
+            cb(null);
+        }
     });
 }
 

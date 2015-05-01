@@ -1,5 +1,5 @@
 var util = require('util');
-var XBee = require('./svd-xbee');
+var XBee = require('./modules/svd-xbee');
 var config = require('./modules/config');
 // var mysql = require('./modules/mysql');
 
@@ -38,6 +38,12 @@ exports.init = function(callback, onXbeeData){
         });
     });
 };
+
+exports.disconnect = function(callback){
+    xbee.disconnect(function(){
+        console.log("XBee disconnect");
+    });
+}
 
 exports.scan = function(callback){
     xbee.discover();
