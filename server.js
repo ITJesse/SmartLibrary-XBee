@@ -135,6 +135,7 @@ socket.on('data', function(data){
             }
             //将节点插入轮询列表
             var getValTimer = later.setInterval(getVal, getValSched);
+            var getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
             break;
         default:
             setTimeout(function(){
@@ -142,8 +143,6 @@ socket.on('data', function(data){
             }, 1000);
             break;
     }
-
-    var getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
 
 });
 
