@@ -213,7 +213,7 @@ XBee.prototype.init = function(cb) {
   return self;
 }
 
-XBee.prototype.exit = function(cb) {
+XBee.prototype.exit = function() {
     var self = this;
     self.serial.close(function(err) {
         if (err) console.log("Error closing port: "+util.inspect(err));
