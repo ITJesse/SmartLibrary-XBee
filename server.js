@@ -89,6 +89,7 @@ var onXbeeData = function(data){
 
 socket.on('connect', function(){
     console.log('Connected to the Server!');
+
     async.waterfall([
         function(cb) {
             xbee.init(function() {
@@ -99,17 +100,23 @@ socket.on('connect', function(){
             xbee.scan(function() {
                 cb(null);
             });
-        },
+        }, //扫描节点
         function(cb) {
             var json = { type: "100" };
             socket.emit('data', json);
             cb(null);
-        } //获取XBee节点列表
+        }, //获取XBee节点列表
+        function(cb) {
+            getValTimer = later.setInterval(getVal, getValSched);
+            getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
+        } //开启计划任务
     ],
     function(err) {
         if (err) console.log(err);
         // console.log(xbeeList);
     });
+
+    cb(null);
 });
 
 socket.on('data', function(data){
@@ -126,6 +133,7 @@ socket.on('data', function(data){
             }, 1000);
             break;
         case "100":
+            xbeeList = [];
             for (var i in value) {
                 var node = {
                     mac: value[i].mac,
@@ -134,9 +142,6 @@ socket.on('data', function(data){
                 };
                 xbeeList.push(node);
             }
-            //将节点插入轮询列表
-            getValTimer = later.setInterval(getVal, getValSched);
-            getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
             break;
         default:
             setTimeout(function(){
