@@ -125,11 +125,6 @@ socket.on('data', function(data){
     var value = data.value;
 
     switch(type){
-        case "8":
-            setTimeout(function(){
-                xbee.sendData(mac, type, value);
-            }, 1000);
-            break;
         case "100":
             xbeeList = [];
             for (var i in value) {
