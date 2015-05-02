@@ -22,18 +22,18 @@ exports.init = function(callback, onXbeeData){
 
     // Emitted when .init() is done (COM port open, parameters read)
     xbee.on("initialized", function(params) {
-        console.log("XBee Parameters: %s", util.inspect(params));
+        console.log("XBee Parameters: %s".green, util.inspect(params));
         callback();
     });
 
     xbee.on("newNodeDiscovered", function(node) {
-        console.log("XBee found: " + node.remote64.hex);
+        console.log("XBee found: ".green + node.remote64.hex);
         // if(xbeeList.indexOf(node) == -1)
         //     xbeeList.push(node);
         // console.log(util.inspect(node));
 
         node.on("data", function(data) {
-            console.log("XBee recived %s> %s", node.remote64.hex, util.inspect(data));
+            console.log("XBee recived %s> %s".green, node.remote64.hex, util.inspect(data));
             onXbeeData(data);
         });
     });
@@ -41,7 +41,7 @@ exports.init = function(callback, onXbeeData){
 
 exports.disconnect = function(callback){
     xbee.disconnect(function(){
-        console.log("XBee disconnect");
+        console.log("XBee disconnect".green);
     });
     xbee = new XBee.XBee({
         port: config.serial, // replace with yours
@@ -52,9 +52,9 @@ exports.disconnect = function(callback){
 
 exports.scan = function(callback){
     xbee.discover();
-    console.log("Node discovery starded...");
+    console.log("Node discovery starded...".green);
     xbee.on("discoveryEnd", function() {
-        console.log("Node discovery over");
+        console.log("Node discovery over".green);
         callback(xbeeList);
     });
 };
@@ -91,7 +91,7 @@ exports.addNode = function(mac){
 exports.getVal = function(item){
     // console.log(node);
     var data = item.mac + "|" + item.type + "|0\n";
-    console.log("XBee send: %s", util.inspect(data));
+    console.log("XBee send: %s".green, util.inspect(data));
     xbee.broadcast(data, function(err, status){
         if(err) return console.log(err);
         // console.log("Send status: " + status);
@@ -101,7 +101,7 @@ exports.getVal = function(item){
 exports.sendData = function(mac, type, value){
     // console.log(node);
     var data = mac + "|" + type + "|" + value + "\n";
-    console.log("XBee send: %s", util.inspect(data));
+    console.log("XBee send: %s".green, util.inspect(data));
     xbee.broadcast(data, function(err, status){
         if(err) return console.log(err);
         // console.log("Send status: " + status);

@@ -4,6 +4,8 @@ var async = require('async');
 var later = require('later');
 var fs = require('fs');
 var os = require('os');
+var colors = require('colors');
+
 var xbee = require('./xbee');
 var config = require('./modules/config');
 
@@ -83,12 +85,12 @@ var onXbeeData = function(data){
         type: res[1],
         value: res[2]
     };
-    console.log("Socket send: " + util.inspect(json));
+    console.log("Socket send: ".blue + util.inspect(json));
     socket.emit('data', json);
 };
 
 socket.on('connect', function(){
-    console.log('Connected to the Server!');
+    console.log('Connected to the Server!'.yellow);
 
     async.waterfall([
         function(cb) {
@@ -118,7 +120,7 @@ socket.on('connect', function(){
 });
 
 socket.on('data', function(data){
-    console.log('Socket data recived: ' + JSON.stringify(data));
+    console.log('Socket data recived: '.blue + JSON.stringify(data));
 
     var mac = data.mac;
     var type = data.type;
@@ -149,9 +151,9 @@ socket.on('disconnect', function(){
     getValTimer.clear();
     getRaspiTimer.clear();
     xbee.disconnect();
-    console.log('Disconnect to the Server!');
+    console.log('Disconnect to the Server!'.yellow);
 });
 
 socket.on('reconnect', function() {
-    console.log('Reconnect to the Server!');
-})
+    console.log('Reconnect to the Server!'.yellow);
+});
