@@ -118,43 +118,43 @@ socket.on('connect', function(){
         if (err) console.log(err);
         // console.log(xbeeList);
     });
+});
 
-    socket.on('data', function(data){
-        console.log('Socket data recived: '.blue + JSON.stringify(data));
+socket.on('data', function(data){
+    console.log('Socket data recived: '.blue + JSON.stringify(data));
 
-        var mac = data.mac;
-        var type = data.type;
-        var value = data.value;
+    var mac = data.mac;
+    var type = data.type;
+    var value = data.value;
 
-        switch(type){
-            case "100":
-                xbeeList = [];
-                for (var i in value) {
-                    var node = {
-                        mac: value[i].mac,
-                        type: value[i].type,
-                        node: xbee.addNode(value[i].mac)
-                    };
-                    xbeeList.push(node);
-                }
-                break;
-            default:
-                setTimeout(function(){
-                    xbee.sendData(mac, type, value);
-                }, 1000);
-                break;
-        }
+    switch(type){
+        case "100":
+            xbeeList = [];
+            for (var i in value) {
+                var node = {
+                    mac: value[i].mac,
+                    type: value[i].type,
+                    node: xbee.addNode(value[i].mac)
+                };
+                xbeeList.push(node);
+            }
+            break;
+        default:
+            setTimeout(function(){
+                xbee.sendData(mac, type, value);
+            }, 1000);
+            break;
+    }
 
-    });
+});
 
-    socket.on('disconnect', function(){
-        getValTimer.clear();
-        getRaspiTimer.clear();
-        xbee.disconnect();
-        console.log('Disconnect to the Server!'.yellow);
-    });
+socket.on('disconnect', function(){
+    getValTimer.clear();
+    getRaspiTimer.clear();
+    xbee.disconnect();
+    console.log('Disconnect to the Server!'.yellow);
+});
 
-    socket.on('reconnect', function() {
-        console.log('Reconnect to the Server!'.yellow);
-    });
+socket.on('reconnect', function() {
+    console.log('Reconnect to the Server!'.yellow);
 });
