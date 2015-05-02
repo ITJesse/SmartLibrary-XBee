@@ -70,6 +70,7 @@ var getRaspi = function() {
 
     async.eachSeries(task, function(item, callback) {
         setTimeout(function() {
+            console.log("Socket send: ".blue + util.inspect(item));
             socket.emit('data', item);
             callback(null);
         }, 1000);
