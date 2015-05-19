@@ -31,7 +31,7 @@
   ],
   "homepage": "https://github.com/jouz/svd-xbee",
   "dependencies": {
-    "serialport": "1.7.*",
+    "serialport": "1.1.x",
     "async": "0.1.x"
   },
   "engines": {
