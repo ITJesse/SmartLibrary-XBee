@@ -1,6 +1,6 @@
 var util = require('util');
-var XBee = require('./modules/svd-xbee');
-var config = require('./modules/config');
+var XBee = require('./svd-xbee');
+var config = require('./config');
 // var mysql = require('./modules/mysql');
 
 // This parser buffers data, emits chucks
