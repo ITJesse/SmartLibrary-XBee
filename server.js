@@ -26,45 +26,6 @@ var getRaspiSched = {
     }]
 };
 
-var getVal = function() {
-    console.log(new Date());
-    async.eachSeries(xbeeList, function(item, callback) {
-        setTimeout(function() {
-            xbee.getVal(item);
-            callback(null);
-        }, 1000);
-    });
-};
-
-var onXbeeData = function(data){
-    // console.log(data);
-    data = data.slice(0, data.length - 1);
-    var res = data.split("|");
-    var json = {
-        mac: res[0],
-        type: res[1],
-        value: res[2]
-    };
-    console.log("Socket send: ".blue + util.inspect(json));
-    socket.emit('data', json);
-
-    if(switchCtl.getIsAlarm()){
-        switch(res[1]){
-            case "4":
-                if(res[2] == 1){
-                    xbee.sendData(fanNode.mac, "101", "1");
-                }
-            case "5":
-            case "17":
-                if(res[2] == 1){
-                    xbee.sendData(alarmNode.mac, "102", "1");
-                }
-                break;
-            default:
-        }
-    }
-};
-
 socket.on('connect', function(){
     console.log('Connected to the Server!'.yellow);
 
@@ -108,6 +69,45 @@ socket.on('connect', function(){
         // console.log(xbeeList);
     });
 });
+
+var getVal = function() {
+    console.log(new Date());
+    async.eachSeries(xbeeList, function(item, callback) {
+        setTimeout(function() {
+            xbee.getVal(item);
+            callback(null);
+        }, 1000);
+    });
+};
+
+var onXbeeData = function(data){
+    // console.log(data);
+    data = data.slice(0, data.length - 1);
+    var res = data.split("|");
+    var json = {
+        mac: res[0],
+        type: res[1],
+        value: res[2]
+    };
+    console.log("Socket send: ".blue + util.inspect(json));
+    socket.emit('data', json);
+
+    if(switchCtl.getIsAlarm()){
+        switch(res[1]){
+            case "4":
+                if(res[2] == 1){
+                    xbee.sendData(fanNode.mac, "101", "1");
+                }
+            case "5":
+            case "17":
+                if(res[2] == 1){
+                    xbee.sendData(alarmNode.mac, "102", "1");
+                }
+                break;
+            default:
+        }
+    }
+};
 
 socket.on('data', function(data){
     console.log('Socket data recived: '.blue + JSON.stringify(data));
