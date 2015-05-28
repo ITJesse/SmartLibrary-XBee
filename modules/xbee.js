@@ -42,11 +42,11 @@ exports.init = function(callback, onXbeeData){
 exports.disconnect = function(callback){
     xbee.disconnect(function(){
         console.log("XBee disconnect".green);
-    });
-    xbee = new XBee.XBee({
-        port: config.serial, // replace with yours
-        baudrate: config.baudrate, // 9600 is default
-        transmit_status_timeout: 3000
+        xbee = new XBee.XBee({
+            port: config.serial, // replace with yours
+            baudrate: config.baudrate, // 9600 is default
+            transmit_status_timeout: 3000
+        });
     });
 }
 
