@@ -12,7 +12,6 @@ var refreshSwitchStatus = function(options){
 }
 
 refreshSwitchStatus.prototype.init = function(){
-    console.log(this);
     var _this = this;
 
     gpio.setup(beepPin, gpio.DIR_OUT, _this.beep);
