@@ -221,6 +221,7 @@ XBee.prototype.disconnect = function(cb) {
             process.exit();
         }else{
             cb(null);
+            process.exit();
         }
     });
 }

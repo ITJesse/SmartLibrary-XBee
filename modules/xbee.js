@@ -6,15 +6,15 @@ var config = require('./config');
 // This parser buffers data, emits chucks
 // seperated by space chars (" ")
 
-var xbee = new XBee.XBee({
-    port: config.serial, // replace with yours
-    baudrate: config.baudrate, // 9600 is default
-    transmit_status_timeout: 3000
-});
-
-var xbeeList = [];
+var xbee, xbeeList = [];
 
 exports.init = function(callback, onXbeeData){
+
+    xbee = new XBee.XBee({
+        port: config.serial, // replace with yours
+        baudrate: config.baudrate, // 9600 is default
+        transmit_status_timeout: 3000
+    });
 
     // Open COM port, read some parameters from the XBee at once.
     xbee.init();
@@ -42,11 +42,6 @@ exports.init = function(callback, onXbeeData){
 exports.disconnect = function(callback){
     xbee.disconnect(function(){
         console.log("XBee disconnect".green);
-    });
-    xbee = new XBee.XBee({
-        port: config.serial, // replace with yours
-        baudrate: config.baudrate, // 9600 is default
-        transmit_status_timeout: 3000
     });
 }
 
