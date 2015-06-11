@@ -11,7 +11,7 @@ var config = require('./modules/config');
 var socket = require('socket.io-client')(config.host);
 
 var xbee = require('./modules/xbee');
-var gpio = require('./modules/gpio'), switchCtl;
+// var gpio = require('./modules/gpio'), switchCtl;
 
 var xbeeList = [];
 var alarmNode, fanNode;
@@ -23,11 +23,11 @@ var getValSched = {
     }]
 };
 
-var getRaspiSched = {
-    schedules: [{
-        s: [15, 45]
-    }]
-};
+// var getRaspiSched = {
+//     schedules: [{
+//         s: [15, 45]
+//     }]
+// };
 
 socket.on('connect', function(){
     console.log('Connected to the Server!'.yellow);
@@ -59,17 +59,17 @@ socket.on('connect', function(){
             }, 3000);
         },//等待各列表生成
         function(cb){
-            switchCtl = new gpio({
-                XBee: xbee,
-                fan: fanNode,
-                alarm: alarmNode
-            });
-            switchCtl.init();
+            // switchCtl = new gpio({
+            //     XBee: xbee,
+            //     fan: fanNode,
+            //     alarm: alarmNode
+            // });
+            // switchCtl.init();
             cb(null);
         }, //初始化GPIO
         function(cb) {
             getValTimer = later.setInterval(getVal, getValSched);
-            getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
+            // getRaspiTimer = later.setInterval(getRaspi, getRaspiSched);
         } //开启计划任务
     ],
     function(err) {
@@ -100,7 +100,7 @@ var onXbeeData = function(data){
     console.log("Socket send: ".blue + util.inspect(json));
     socket.emit('data', json);
 
-    if(switchCtl && switchCtl.getIsAlarm()){
+    // if(switchCtl && switchCtl.getIsAlarm()){
         switch(res[1]){
             case "4":
                 if(res[2] == 1){
@@ -116,57 +116,57 @@ var onXbeeData = function(data){
                 break;
             default:
         }
-    }
+    // }
 };
 
-var getRaspi = function() {
-    var task = [];
-
-    fs.exists("/sys/class/thermal/thermal_zone0/temp", function(exists){
-        if(exists){
-            var file = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp", "utf8");
-            var temp = (parseFloat(file) / 1000).toFixed(1);
-            var tempJson = {
-                mac: 'E84E061C',
-                type: '1',
-                value: temp
-            };
-            task.push(tempJson);
-            console.log("CPU: " + temp);
-        }
-    });
-
-    fs.exists("/proc/loadavg", function(exists){
-        if(exists){
-            var file = fs.readFileSync("/proc/loadavg", "utf8");
-            var load = parseFloat(file.slice(0, 4));
-            var loadJson = {
-                mac: 'E84E061C',
-                type: '13',
-                value: load
-            };
-            task.push(loadJson);
-            console.log("LOAD: " + load);
-        }
-    });
-
-    var mem = Math.floor((os.totalmem() - os.freemem()) / 1024 / 1024);
-    var memJson = {
-        mac: 'E84E061C',
-        type: '12',
-        value: mem
-    };
-    task.push(memJson);
-    console.log("MEM: " + mem);
-
-    async.eachSeries(task, function(item, callback) {
-        setTimeout(function() {
-            console.log("Socket send: ".blue + util.inspect(item));
-            socket.emit('data', item);
-            callback(null);
-        }, 1000);
-    });
-}
+// var getRaspi = function() {
+//     var task = [];
+//
+//     fs.exists("/sys/class/thermal/thermal_zone0/temp", function(exists){
+//         if(exists){
+//             var file = fs.readFileSync("/sys/class/thermal/thermal_zone0/temp", "utf8");
+//             var temp = (parseFloat(file) / 1000).toFixed(1);
+//             var tempJson = {
+//                 mac: 'E84E061C',
+//                 type: '1',
+//                 value: temp
+//             };
+//             task.push(tempJson);
+//             console.log("CPU: " + temp);
+//         }
+//     });
+//
+//     fs.exists("/proc/loadavg", function(exists){
+//         if(exists){
+//             var file = fs.readFileSync("/proc/loadavg", "utf8");
+//             var load = parseFloat(file.slice(0, 4));
+//             var loadJson = {
+//                 mac: 'E84E061C',
+//                 type: '13',
+//                 value: load
+//             };
+//             task.push(loadJson);
+//             console.log("LOAD: " + load);
+//         }
+//     });
+//
+//     var mem = Math.floor((os.totalmem() - os.freemem()) / 1024 / 1024);
+//     var memJson = {
+//         mac: 'E84E061C',
+//         type: '12',
+//         value: mem
+//     };
+//     task.push(memJson);
+//     console.log("MEM: " + mem);
+//
+//     async.eachSeries(task, function(item, callback) {
+//         setTimeout(function() {
+//             console.log("Socket send: ".blue + util.inspect(item));
+//             socket.emit('data', item);
+//             callback(null);
+//         }, 1000);
+//     });
+// }
 
 socket.on('data', function(data){
     console.log('Socket data recived: '.blue + JSON.stringify(data));
@@ -250,7 +250,7 @@ socket.on('data', function(data){
 
 socket.on('disconnect', function(){
     getValTimer.clear();
-    getRaspiTimer.clear();
+    // getRaspiTimer.clear();
     xbee.disconnect();
     console.log('Disconnect to the Server!'.yellow);
 });
