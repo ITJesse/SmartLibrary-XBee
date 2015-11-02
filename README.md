@@ -9,7 +9,7 @@
 2. Clone the source code from git.
 3. Run `npm install` under the root of the source code.
 4. Run `npm install` under the `/modules/svd-xbee` directory.
-5. Copy and rename the `/modules/config.sample.js` to `/modules/config.js` and do the necessary configure.
+5. Copy and rename the config file `/modules/config.sample.js` and do the necessary configure.
 6. If nothing wrong, you can start the server by samply type `node server` and press Enter.
 
 ### Notice
